@@ -6,6 +6,7 @@
 #include <map>
 #include <array>
 #include <list>
+#include <fstream>
 
 //functions (prototypes)
 
@@ -26,4 +27,35 @@ int main(){}
 
 // functions (defs)
 
-bool loadData(map<string, array<list<string>, 3>>& farm, string fname){}
+bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
+    // ifstream to read data from given file
+    ifstream fin(fname);
+
+    // if file doesnt open return false
+    if(!fin.is_open()){
+        return false;
+    }
+
+    // temp string var to store each read line from the file
+    string data;
+
+    // read each line and insert itto the map
+    while(getline(fin, data)){
+        // split each line into parts
+        // string before the first comma will be the field name
+        // then there will be numbers 0 1 and 2, each one linked to a different crop
+        // last string after comma will be crop ID i suppose to help me track when the crop is ready to harvest
+        // insert these values into the map
+    }
+
+    // close the file
+    fin.close();
+
+    // return true
+    return true;
+}
+
+// day simulation
+void simulate(map<string, array<list<string>, 3>>& farm, int day){
+    
+}
