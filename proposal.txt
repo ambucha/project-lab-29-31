@@ -1,0 +1,15 @@
+project proposal: crop growth
+
+project main idea: 
+the project will simulate crop growth and harvesting on a farm. each field will be an area of land, and every field will have
+three types of crops, cassava, cacao, and coffee. the program will use a map data structure with the key being the field name,
+and the value will be an array with three lists, one for each crop. this should make it easy to update as simulation time passes.
+simulation will use time periods to show days passing. each period, plants will grow, new ones might sprout, and ones ready to be 
+harvested will be harvested. also i can add maybe random weather in order to add difficulty to the project. these weather events 
+will affect plant growth. rain could help while too much heat could stunt the growht (or maybe even kill some plants). the effects
+will be output at the end of each time period. initial data will come from an external file, showing the starting conditions of the 
+farm. this starting data will be minimum 100 lines long. imma run this for 30 time periods, that way itll be a full month, 25 would feel
+incomplete. i will show the initial state, and then output at end of each time period how things have changed. goal of the project is
+to show how changes in weather and time affect crop growth and the farms productivity, also each of the three farms will have different 
+altitude and soil quality so that there will be differences between the map keys that will affect the crop growth and lead to more
+interesting data.
