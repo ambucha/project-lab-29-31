@@ -7,6 +7,10 @@
 #include <array>
 #include <list>
 #include <fstream>
+using namespace std; // forgot to add this lol
+
+// ammount of weather options
+int WEATHER_CONST = 3;
 
 //functions (prototypes)
 
@@ -57,5 +61,45 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
 
 // day simulation
 void simulate(map<string, array<list<string>, 3>>& farm, int day){
-    
+    // ok so first imma randomly select weather condition for this day, lets start with three possible options
+    // 0 = rani, 1 = heat, 2 = normal
+    // imma make a variable so that i can up the weather options easilty if needed
+    int weather = rand() % WEATHER_CONST;
+
+    // loop through each field in map
+    for(auto& f : farm){
+        // f.first = name of field
+        // f.second = array of the three crop lists
+        // for each crop in this field - adjust growth due to weather, advance some crops growth stage, remove harvestable crops, add new budding crops
+    }
+
+    // print that the day ended
+    cout << "Day " << day << "done." << endl; 
+}
+
+// print farm state
+void printState(map<string, array<list<string>, 3>>& farm, int day){
+    // set a base case for the initial state and final state
+    if(day == 0){
+        cout << "Initial State: " << endl;
+    }
+    else if(day == -1){
+        cout << "Final State: " << endl;
+    }
+    else {
+        cout << "Day " << day << ": " << endl;
+    }
+
+    //now loop through every field in the map
+    for(auto& f : farm){
+        // get the name of the field
+        string fName = f.first;
+
+        // array of the three crops lists belonging to the field
+        array<list<string>, 3>& cLists = f.second;
+        
+        // i can adjust what i want to output but for nnow lets keep it basic
+        cout << "Field " << fName << ": " << endl;
+        cout << "Cassava count: " << cLists[0].size() << endl;
+    }
 }
