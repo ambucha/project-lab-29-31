@@ -27,7 +27,38 @@ void simulate(map<string, array<list<string>, 3>>& farm, int day);
 void printState(map<string, array<list<string>, 3>>& farm, int day);
 
 // main
-int main(){}
+int main(){
+    // farm is the main data struct
+    map<string, array<list<string>, 3>> farm;
+
+    // filename of the data file
+    string fName = "farm_data.csv";
+
+    // check, wether file loaded correctly or no
+    bool check = loadData(farm,fName);
+
+    // if file does not open print out the fact that it did not open
+    if(!check){
+        cout << "ERROR: Farm data file could not be opened" << endl;
+        return 1;
+    }
+
+    // print initial farm state to show how the farm is before the simulation begins
+    printState(farm,0); // 0 to show that it is initial state
+
+    // run the simulation for 30 time periods
+    for(int i = 1; i <= 30; i++){
+        // for each day simulate
+        simulate(farm, i);
+        // then print farm state at end of each day
+        printState(farm, i);
+    }
+
+    // print final results after all days are simulated
+    printState(farm, -1);
+    
+    return 0;
+}
 
 // functions (defs)
 
@@ -101,5 +132,9 @@ void printState(map<string, array<list<string>, 3>>& farm, int day){
         // i can adjust what i want to output but for nnow lets keep it basic
         cout << "Field " << fName << ": " << endl;
         cout << "Cassava count: " << cLists[0].size() << endl;
+        cout << "Cacao count: " << cLists[1].size() << endl;
+        cout << "Coffee count: " << cLists[2].size() << endl;
     }
+
+    cout << endl;
 }
