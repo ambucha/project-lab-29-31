@@ -94,7 +94,9 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
         // convert number string to an int
         int crop;
         // use try catch to handle exceptions if the cropString is not a number
-        
+        try
+
+
     }
 
     // close the file
