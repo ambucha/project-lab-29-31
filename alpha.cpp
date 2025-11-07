@@ -175,7 +175,27 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
     if(weather == 0){
         weatherRate = 10;
     }
-    
+    if(weather == 1){
+        weatherRate = -10;
+    }
+
+    // now i need to make it so that each different field affects crops differently
+    // lets say north field makes cassava and coffee thrive, while brings cacao down a bit
+    // south field makes  cacao thriveand hurts coffee, while cassava is neutral
+    // and east field is neutral for all, our control group even
+    map<string, array<int,NUM_OF_CROPS>> fieldRate = {
+        {"North Field", {5,-5,5}}, // north field, coffee and cassava thrive and cacao is hurt
+        {"South Field", {0,5,-5}},
+        {"East Field", {0,0,0}}
+    };
+
+    // OOOO i can also make the chance of new plants sprouting different depending on the field, this could make it so cool
+    // so lets make chance of replanting out of 100 for each type of plant for each field
+    map<string, array<int,NUM_OF_CROPS>> fieldSprout = {
+        {"North Field", {20,10,15}}, // north field, coffee and cassava thrive and cacao is hurt
+        {"South Field", {10,25,5}},
+        {"East Field", {10,10,10}}
+    };
 
     // loop through each field in map
     for(auto& f : farm){
