@@ -82,9 +82,18 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
 
         // create the three variabnles for the different data
         string fieldName;
-        int crop;
+        string cropString; // imma need to collect it as a string and convert it to an int
         string cropID;
 
+        // split the line into its components
+        // make it so that if something goes wrong it skips the line entirely instead of inputting bad data
+        if(!getline(d, fieldName, ',')) continue; // continue so that if one does not work it wont input the bad data
+        if(!getline(d, cropString, ',')) continue;
+        if(!getline(d, cropID)) continue;
+
+        // convert number string to an int
+        int crop;
+        // use try catch to handle exceptions if the cropString is not a number
         
     }
 
