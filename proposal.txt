@@ -1,15 +1,22 @@
 project proposal: crop growth
 
 project main idea: 
-the project will simulate crop growth and harvesting on a farm. each field will be an area of land, and every field will have
-three types of crops, cassava, cacao, and coffee. the program will use a map data structure with the key being the field name,
-and the value will be an array with three lists, one for each crop. this should make it easy to update as simulation time passes.
-simulation will use time periods to show days passing. each period, plants will grow, new ones might sprout, and ones ready to be 
-harvested will be harvested. also i can add maybe random weather in order to add difficulty to the project. these weather events 
-will affect plant growth. rain could help while too much heat could stunt the growht (or maybe even kill some plants). the effects
-will be output at the end of each time period. initial data will come from an external file, showing the starting conditions of the 
-farm. this starting data will be minimum 100 lines long. imma run this for 30 time periods, that way itll be a full month, 25 would feel
-incomplete. i will show the initial state, and then output at end of each time period how things have changed. goal of the project is
-to show how changes in weather and time affect crop growth and the farms productivity, also each of the three farms will have different 
-altitude and soil quality so that there will be differences between the map keys that will affect the crop growth and lead to more
-interesting data.
+
+my project creates a crop growth simulation, designed to model how different environmental factors
+affect the devolpment and productivity of crops over time. this simulation will show how cassava, 
+cacao, and coffee grow, sprout, and harvested accross different fields. they will be affcted by 
+changing weather conditions like rain, heat, etc. this should show how tinme, weather, and soil conditions
+can change the overall performance of a farm.
+i will use an std::map to store and manage data for each field on the farm. the key of the map will
+be the field name, and the value will be 3 element arrat containnig 3 lists. each list will represent
+one of the three crops. this should allow me to organize and update crop data as time goes on.
+one map would be for a specific field. the three lists would represent the three crops in that field. another 
+entry would be for a different field with its own distinct crops. each field will also have its own soil quality
+and altitude in order to add difference between the fields.
+the simulation will go for 30 time periods, each representing a day. during each step these events will happen:
+- some crops will grow, getting closer to being harvestable
+- some crops will be harvested
+- some new crops might sprout
+- weather effects: depending on the weather some crops may die, have stunted growth, or grow faster
+
+

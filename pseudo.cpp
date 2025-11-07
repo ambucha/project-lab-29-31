@@ -1,6 +1,3 @@
-// pseodo code
-// include needed librarires
-// ight imma need to actually include thse or else my code will be full of red and its just annoying lol
 #include <iostream>
 #include <string>
 #include <map>
