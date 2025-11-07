@@ -17,20 +17,20 @@ int WEATHER_CONST = 3;
 
 // loading initial data from external file in
 // arguments: reference to the map that has the field +crop data, file to load
-bool loadData(map<string, array<list<string>, 3>>& farm, string fname);
+bool loadData(map<string, array<list<int>, 3>>& farm, string fname);
 
 // simulating one day
 // reference to map, which day of the simulation
-void simulate(map<string, array<list<string>, 3>>& farm, int day);
+void simulate(map<string, array<list<int>, 3>>& farm, int day);
 
 // prints current farm state
 // arguments: reference to map, current day
-void printState(map<string, array<list<string>, 3>>& farm, int day);
+void printState(map<string, array<list<int>, 3>>& farm, int day);
 
 // main
 int main(){
     // farm is the main data struct
-    map<string, array<list<string>, 3>> farm;
+    map<string, array<list<int>, 3>> farm;
 
     // filename of the data file
     string fName = "farm_data.csv";
@@ -39,11 +39,17 @@ int main(){
     bool check = loadData(farm,fName);
 
     // if file does not open print out the fact that it did not open
+    // test to see if the file is opened
+    if(check){
+        cout << "File opened and read" << endl;
+    }
+    
     if(!check){
         cout << "ERROR: Farm data file could not be opened" << endl;
         return 1;
     }
 
+    /*
     // print initial farm state to show how the farm is before the simulation begins
     printState(farm,0); // 0 to show that it is initial state
 
@@ -57,7 +63,8 @@ int main(){
 
     // print final results after all days are simulated
     printState(farm, -1);
-    
+    */
+
     return 0;
 }
 
@@ -67,7 +74,8 @@ int main(){
 // wait imma change cropID to just be crop  stage, i dont technically care what the ID for each individual crop is, since the data 
 // i want to be collecting is mainly focused of how things affect the yield of the crop
 // I will make it so that the cropID is actually the stage of readiness its add so i will start at like S1 moving all the way to S5 and then READY when it can be harvested
-bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
+// wait why overcomplicate it making them string, lemme just make the stage count go from 1-6 and 6 be equal to ready
+bool loadData(map<string, array<list<int>, 3>>& farm, string fname){
     // ifstream to read data from given file
     ifstream fin(fname);
 
@@ -79,7 +87,7 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
     // temp string var to store each read line from the file
     string data;
     // int line number for error outputs
-    int line;
+    int line = 0;
 
     // read each line and insert itto the map
     while(getline(fin, data)){
@@ -100,24 +108,39 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
 
         // convert number string to an int
         int crop;
+        int stage;
         // use try catch to handle exceptions if the cropString is not a number
         try {
             // convert string to integer
             crop = stoi(cropString);
         } catch(...) {
             // use cerr to ouput if something went wrong
-            cerr << "WARNING: line " << line << " has a non integer index"; // i should add a way to know what line of the file we are in
+            cerr << "WARNING: line " << line << " has a non integer index" << endl; // i should add a way to know what line of the file we are in
+            continue; // go to the next line if it can not be converted to an integer
+        }
+
+        try {
+            // convert string to integer
+            stage = stoi(cropID);
+        } catch(...) {
+            // use cerr to ouput if something went wrong
+            cerr << "WARNING: line " << line << " has a non integer index" << endl; // i should add a way to know what line of the file we are in
             continue; // go to the next line if it can not be converted to an integer
         }
 
         // check if crop is between 0-2 so if it is a valid index
         if(crop < 0 || crop > 2){
-            cerr << "WARNING: line " << line << " has an unknown crop type";
+            cerr << "WARNING: line " << line << " has an unknown crop type" << endl;
+            continue; 
+        }
+
+        if(crop < 1 || crop > 6){
+            cerr << "WARNING: line " << line << " is at an unknown stage" << endl;
             continue; 
         }
 
         // now insert values into map
-        farm[fieldName][crop].push_back(cropID);
+        farm[fieldName][crop].push_back(stage);
     }
 
     // close the file
@@ -128,7 +151,7 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
 }
 
 // day simulation
-void simulate(map<string, array<list<string>, 3>>& farm, int day){
+void simulate(map<string, array<list<int>, 3>>& farm, int day){
     // ok so first imma randomly select weather condition for this day, lets start with three possible options
     // 0 = rani, 1 = heat, 2 = normal
     // imma make a variable so that i can up the weather options easilty if needed
@@ -146,7 +169,7 @@ void simulate(map<string, array<list<string>, 3>>& farm, int day){
 }
 
 // print farm state
-void printState(map<string, array<list<string>, 3>>& farm, int day){
+void printState(map<string, array<list<int>, 3>>& farm, int day){
     // set a base case for the initial state and final state
     if(day == 0){
         cout << "Initial State: " << endl;
@@ -164,7 +187,7 @@ void printState(map<string, array<list<string>, 3>>& farm, int day){
         string fName = f.first;
 
         // array of the three crops lists belonging to the field
-        array<list<string>, 3>& cLists = f.second;
+        array<list<int>, 3>& cLists = f.second;
         
         // i can adjust what i want to output but for nnow lets keep it basic
         cout << "Field " << fName << ": " << endl;
