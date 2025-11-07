@@ -1,0 +1,34 @@
+unit testing plan
+
+goal: make sure the load data and simulate functions work correctly 
+
+1.loadData()
+- should correctly read given csv fields
+- should not accept poorly formatted lines 
+- should then populate the map with the correct data values based off the given csv
+2.simulate()
+- advances crop stages based off of chance calculated through enviornmental conditions
+- harvest crops when ready and sprouts new crops based off the given chances
+- should keep a logical nonneg ammount of crops
+
+-write a small driver program to test both functions separately
+- use a controlled random to be able to reproduce results
+- compare outputs displayed with what was expected
+
+example code:
+int main() {
+    map<string, array<list<int>,3>> farm;
+    bool check = loadData(farm, "farm_data.csv");
+    if(!check){
+        cout << "File load fail" << endl;
+    }
+
+    // print initial state
+    printState(farm,0);
+
+    // simulate just one day
+    simulate(farm, 1);
+    printState(farm,1)
+
+    return 0;
+}
