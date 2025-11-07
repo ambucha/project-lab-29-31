@@ -8,6 +8,9 @@
 #include <list>
 #include <fstream>
 #include <sstream>
+// includes for the rand
+#include <cstdlib>
+#include <ctime>
 using namespace std; // forgot to add this lol
 
 // ammount of weather options, should be a constant
@@ -35,6 +38,9 @@ void printState(map<string, array<list<int>, 3>>& farm, int day);
 
 // main
 int main(){
+    // seed the rand
+    srand(time(0));
+
     // farm is the main data struct
     map<string, array<list<int>, 3>> farm;
 
@@ -164,7 +170,8 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
     
     // ok one thing i need to add is how the weather actually affects the crops, and i want it to be different depending on the crop as well
     // i need to add base growth rates for each crop, lets give cassava a 25% growth rate, cacao 35%, and coffee 45%
-    int baseGrowth[NUM_OF_CROPS] = {CASSAVA_RATE,CACAO_RATE,COFFEE_RATE};
+    static const int baseGrowth[NUM_OF_CROPS] = {CASSAVA_RATE,CACAO_RATE,COFFEE_RATE};
+    // also made this a static const^^
 
     // now i need to add environmental factor
     // if it weather = 0 rain, so it speeds up
@@ -181,7 +188,8 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
     // lets say north field makes cassava and coffee thrive, while brings cacao down a bit
     // south field makes  cacao thriveand hurts coffee, while cassava is neutral
     // and east field is neutral for all, our control group even
-    map<string, array<int,NUM_OF_CROPS>> fieldRate = {
+    // these maps are currently being rebuilt every day run i believe so i should just make them static consts
+    static const map<string, array<int,NUM_OF_CROPS>> fieldRate = {
         {"North Field", {5,-5,5}}, // north field, coffee and cassava thrive and cacao is hurt
         {"South Field", {0,5,-5}},
         {"East Field", {0,0,0}}
@@ -189,7 +197,7 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
 
     // OOOO i can also make the chance of new plants sprouting different depending on the field, this could make it so cool
     // so lets make chance of replanting out of 100 for each type of plant for each field
-    map<string, array<int,NUM_OF_CROPS>> fieldSprout = {
+    static const map<string, array<int,NUM_OF_CROPS>> fieldSprout = {
         {"North Field", {20,10,15}}, // north field, coffee and cassava thrive and cacao is hurt
         {"South Field", {10,25,5}},
         {"East Field", {10,10,10}}
@@ -228,6 +236,14 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
         for(int i = 0; i < NUM_OF_CROPS; i++){
             // we calculate the total growth chance for the given crop
             int chance = baseGrowth[i] + weatherRate + rate[i]; // add the original base rate of the plant with the weather affect and the rate of the crop on the filed
+            
+            // i should make it so that the growth chance can never be the extreems, like 100 or 0 to add an element of randomness
+            if(chance > 95){
+                chance = 95;
+            }
+            if(chance < 5){
+                chance = 5;
+            }
             
             // list of all individual plants for that crop type
             auto& l = lists[i];
