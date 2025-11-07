@@ -10,8 +10,14 @@
 #include <sstream>
 using namespace std; // forgot to add this lol
 
-// ammount of weather options
-int WEATHER_CONST = 3;
+// ammount of weather options, should be a constant
+const int WEATHER_CONST = 3;
+
+// add number of crops and base growth rates
+const int NUM_OF_CROPS = 3;
+const int CASSAVA_RATE = 25;
+const int CACAO_RATE = 35;
+const int COFFEE_RATE = 45;
 
 //functions (prototypes)
 
@@ -43,7 +49,7 @@ int main(){
     if(check){
         cout << "File opened and read" << endl;
     }
-    
+
     if(!check){
         cout << "ERROR: Farm data file could not be opened" << endl;
         return 1;
@@ -134,7 +140,8 @@ bool loadData(map<string, array<list<int>, 3>>& farm, string fname){
             continue; 
         }
 
-        if(crop < 1 || crop > 6){
+        // oops was getting errors since i was checking crop instead of stage
+        if(stage < 1 || stage > 6){
             cerr << "WARNING: line " << line << " is at an unknown stage" << endl;
             continue; 
         }
@@ -156,6 +163,19 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
     // 0 = rani, 1 = heat, 2 = normal
     // imma make a variable so that i can up the weather options easilty if needed
     int weather = rand() % WEATHER_CONST;
+    
+    // ok one thing i need to add is how the weather actually affects the crops, and i want it to be different depending on the crop as well
+    // i need to add base growth rates for each crop, lets give cassava a 25% growth rate, cacao 35%, and coffee 45%
+    int baseGrowth[NUM_OF_CROPS] = {CASSAVA_RATE,CACAO_RATE,COFFEE_RATE};
+
+    // now i need to add environmental factor
+    // if it weather = 0 rain, so it speeds up
+    // if weather = 1 it is heat so slows down
+    int weatherRate = 0;
+    if(weather == 0){
+        weatherRate = 10;
+    }
+    
 
     // loop through each field in map
     for(auto& f : farm){
