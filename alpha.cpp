@@ -94,9 +94,23 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
         // convert number string to an int
         int crop;
         // use try catch to handle exceptions if the cropString is not a number
-        try
+        try {
+            // convert string to integer
+            crop = stoi(cropString);
+        } catch(...) {
+            // use cerr to ouput if something went wrong
+            cerr << "WARNING: line has a non integer index";
+            continue; // go to the next line if it can not be converted to an integer
+        }
 
+        // check if crop is between 0-2 so if it is a valid index
+        if(crop < 0 || crop > 2){
+            cerr << "WARNING: line has an unknown crop type";
+            continue; 
+        }
 
+        // now insert values into map
+        farm[fieldName][crop].push_back(cropID);
     }
 
     // close the file
