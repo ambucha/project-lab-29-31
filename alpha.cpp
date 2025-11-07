@@ -202,6 +202,58 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
         // f.first = name of field
         // f.second = array of the three crop lists
         // for each crop in this field - adjust growth due to weather, advance some crops growth stage, remove harvestable crops, add new budding crops
+        const string& field = f.first;
+        auto& lists = f.second;
+        
+        // okay now i have to find the fieldRates and the field sprout rates
+        // start with a default array of 0s
+        array<int,NUM_OF_CROPS> rate = {0,0,0};
+        // now imma try and find the field in the fieldRate map
+        auto itRate = fieldRate.find(field);
+        // now if it is found
+        if(itRate != fieldRate.end()){
+            // set the three values to be the rates
+            rate = itRate->second;
+        }
+
+        // same thing for sprout
+        array<int,NUM_OF_CROPS> sprout = {0,0,0};
+        // now imma try and find the field in the fieldRate map
+        auto itSprout = fieldSprout.find(field);
+        // now if it is found
+        if(itSprout != fieldSprout.end()){
+            // set the three values to be the rates
+            sprout = itSprout->second;
+        }
+
+        // ok nowlets make a loop for each of thecrop types of that given  field 
+        for(int i = 0; i < NUM_OF_CROPS; i++){
+            // we calculate the total growth chance for the given crop
+            int chance = baseGrowth[i] + weatherRate + rate[i]; // add the original base rate of the plant with the weather affect and the rate of the crop on the filed
+            
+            // list of all individual plants for that crop type
+            auto& l = lists[i];
+            // now we loop through each plant of that crop type
+            for (auto it = l.begin(); it != l.end();){
+                // check if it is ready to harvest
+                if(*it == 6){
+                    it = l.erase(it); // harvest the plant
+                    continue;
+                }
+                
+                // roll the dice to see if the plant grows, grow by one stage
+                if((rand() % 100) < chance){
+                    (*it)++;
+                    // now check if it is ready to be harvest
+                    if(*it == 6) {
+                        it = l.erase(it); // harvest
+                        continue;
+                    }
+                }
+
+                it++;
+            }
+        }
     }
 
     // print that the day ended
