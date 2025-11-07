@@ -55,7 +55,6 @@ int main(){
         return 1;
     }
 
-    /*
     // print initial farm state to show how the farm is before the simulation begins
     printState(farm,0); // 0 to show that it is initial state
 
@@ -69,7 +68,6 @@ int main(){
 
     // print final results after all days are simulated
     printState(farm, -1);
-    */
 
     return 0;
 }
@@ -253,11 +251,29 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
 
                 it++;
             }
+
+            // check for sprouting
+            if((rand() % 100) < sprout[i]){
+                l.push_back(1); // push_backa stage one plant
+            } 
         }
     }
 
     // print that the day ended
-    cout << "Day " << day << "done." << endl; 
+    // i should print out what the weather was for each daty too
+    string w;
+    if(weather == 0){
+        w = "Rainy";
+    }
+    if(weather == 1){
+        w = "Hot";
+    }
+    if(weather == 2){
+        w = "Normal";
+    }
+
+    cout << "Day " << day << " done." << endl; 
+    cout << "Weather: " << w << endl;
 }
 
 // print farm state
@@ -282,7 +298,7 @@ void printState(map<string, array<list<int>, 3>>& farm, int day){
         array<list<int>, 3>& cLists = f.second;
         
         // i can adjust what i want to output but for nnow lets keep it basic
-        cout << "Field " << fName << ": " << endl;
+        cout << fName << ": " << endl;
         cout << "Cassava count: " << cLists[0].size() << endl;
         cout << "Cacao count: " << cLists[1].size() << endl;
         cout << "Coffee count: " << cLists[2].size() << endl;
