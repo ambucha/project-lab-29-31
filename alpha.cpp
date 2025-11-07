@@ -63,6 +63,10 @@ int main(){
 
 // functions (defs)
 
+// now imma input some sample data into the farm_data.csv for some testing
+// wait imma change cropID to just be crop  stage, i dont technically care what the ID for each individual crop is, since the data 
+// i want to be collecting is mainly focused of how things affect the yield of the crop
+// I will make it so that the cropID is actually the stage of readiness its add so i will start at like S1 moving all the way to S5 and then READY when it can be harvested
 bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
     // ifstream to read data from given file
     ifstream fin(fname);
@@ -74,10 +78,13 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
 
     // temp string var to store each read line from the file
     string data;
+    // int line number for error outputs
+    int line;
 
     // read each line and insert itto the map
     while(getline(fin, data)){
         // lowk i should use stringstream to read the data no?
+        line++;
         stringstream d(data);
 
         // create the three variabnles for the different data
@@ -99,13 +106,13 @@ bool loadData(map<string, array<list<string>, 3>>& farm, string fname){
             crop = stoi(cropString);
         } catch(...) {
             // use cerr to ouput if something went wrong
-            cerr << "WARNING: line has a non integer index";
+            cerr << "WARNING: line " << line << " has a non integer index"; // i should add a way to know what line of the file we are in
             continue; // go to the next line if it can not be converted to an integer
         }
 
         // check if crop is between 0-2 so if it is a valid index
         if(crop < 0 || crop > 2){
-            cerr << "WARNING: line has an unknown crop type";
+            cerr << "WARNING: line " << line << " has an unknown crop type";
             continue; 
         }
 
