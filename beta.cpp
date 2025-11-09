@@ -22,7 +22,7 @@ const int NUM_OF_CROPS = 3;
 const int CASSAVA_RATE = 25;
 const int CACAO_RATE = 35;
 const int COFFEE_RATE = 45;
-const int NUM_CROPS = 33;
+const int NUM_CROPS = 50;
 
 //functions (prototypes)
 
@@ -49,6 +49,10 @@ int main(){
 
     // farm is the main data struct
     map<string, array<list<int>, 3>> farm;
+    // i feel as though a crucial thing i am missing is how many plants were actualyl harvested
+    // im tracking not the most important stats, i need to know how much of each crop was actually harvested thats such a crucial piece of info
+    // lets create somehting here to keep track of how much of each was harvested
+    map<string, array<int,3>> harvested;
 
     // filename of the data file
     string fName = "farm_data.csv";
