@@ -1,0 +1,29 @@
+bugs encountered throughout the project:
+
+Bug 1: i was missing a random seed, which was giving me the same results on each run,
+simple fix of using srand(time(0)), seeding rand in main
+
+Bug 2: I was passing harvest by value in simulate instead of by reference which made them print
+as 0s even though plants were being harvested, fixed by changing to pass by reference
+
+Bug 3: My harvesting check was == 6 instead of >= 6 which gave it a chance to accidentally not be harvested even when it should 
+changing it to >= 6 is just a safer harvest check and allows for less error
+
+Bug 4: i was rebuilding the rate and sprout maps every simulated day, which was adding inefficiency to my 
+simulation, made it a static const instead which fixed that issue
+
+Bug 5: I had no harvest tracking, so I was kind of not tracknig the most important data for the simulation
+fixed this by adding a harvested map for perfield harvest totals, which gave me the needed data for this simulation
+
+Bug 6: I had accidentally used == instead of = for growth chance, this was just a simple typo bug 
+
+Bug 7: I was validating the wrong variable, getting unkown stage warnings when the data being entered looked fine, 
+noticed it was because I was still checking crop instead of stage, fixed by now validating if(stage < 1 || stage > 6)
+
+Bug 8: I had forgotten to add all the needed libraries earlier, simple fix adding the needed headers
+
+Bug 9: I was not passing harvested parameter into the initial and final printState days, so I was getting issues there,
+adding all the needed paramters even to the first day (and last day) of the simulation
+
+Bug 10: I initially had no variable to tell me exactly which lines were giving me the errors in the data csv, so i did not kno
+where to look in order to find my bad data, fixed by adding a line counter variable to help me find where the issue in the data is
