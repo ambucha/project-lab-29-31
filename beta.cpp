@@ -32,11 +32,12 @@ bool loadData(map<string, array<list<int>, 3>>& farm, string fname);
 
 // simulating one day
 // reference to map, which day of the simulation
-void simulate(map<string, array<list<int>, 3>>& farm, int day);
+// imma need to update my functions to now also have the harvested count 
+void simulate(map<string, array<list<int>, 3>>& farm, int day, map<string, array<int,3>>& harvested);
 
 // prints current farm state
 // arguments: reference to map, current day
-void printState(map<string, array<list<int>, 3>>& farm, int day);
+void printState(map<string, array<list<int>, 3>>& farm, int day, const map<string, array<int,3>>& harvested);
 
 // now that its the final release i think its good to add a function to populate the farm_data.csv
 // generateData() opens the farm_data.csv file and populates it with random data
@@ -80,9 +81,9 @@ int main(){
     // run the simulation for 30 time periods
     for(int i = 1; i <= 30; i++){
         // for each day simulate
-        simulate(farm, i);
+        simulate(farm, i, harvested);
         // then print farm state at end of each day
-        printState(farm, i);
+        printState(farm, i, harvested);
     }
 
     // print final results after all days are simulated
@@ -175,7 +176,7 @@ bool loadData(map<string, array<list<int>, 3>>& farm, string fname){
 }
 
 // day simulation
-void simulate(map<string, array<list<int>, 3>>& farm, int day){
+void simulate(map<string, array<list<int>, 3>>& farm, int day, map<string, array<int,3>> harvested){
     // ok so first imma randomly select weather condition for this day, lets start with three possible options
     // 0 = rani, 1 = heat, 2 = normal
     // imma make a variable so that i can up the weather options easilty if needed
@@ -264,6 +265,8 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
             for (auto it = l.begin(); it != l.end();){
                 // check if it is ready to harvest
                 if(*it == 6){
+                    // add to the harvest count herre
+                    ++harvested[field][i];
                     it = l.erase(it); // harvest the plant
                     continue;
                 }
@@ -273,6 +276,8 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
                     (*it)++;
                     // now check if it is ready to be harvest
                     if(*it == 6) {
+                        // here too add to the harvest count 
+                        ++harvested[field][i];
                         it = l.erase(it); // harvest
                         continue;
                     }
@@ -306,7 +311,7 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day){
 }
 
 // print farm state
-void printState(map<string, array<list<int>, 3>>& farm, int day){
+void printState(map<string, array<list<int>, 3>>& farm, int day, const map<string, array<int,3>>& harvested){
     // set a base case for the initial state and final state
     if(day == 0){
         cout << "Initial State: " << endl;
@@ -331,6 +336,21 @@ void printState(map<string, array<list<int>, 3>>& farm, int day){
         cout << "\tCassava count: " << cLists[0].size() << endl;
         cout << "\tCacao count: " << cLists[1].size() << endl;
         cout << "\tCoffee count: " << cLists[2].size() << endl;
+
+        // find the field
+        auto itH = harvested.find(fName);
+        // set a base harvest count of 0s in case field not found
+        array<int,3> h = {0,0,0};
+        // set the actual harvest count
+        if(itH != harvested.end()) {
+            h = itH->second;
+        }
+
+        // output the harvested details
+        cout << "Harvested: " << endl;
+        cout << "\tCassava: " << h[0] << endl;
+        cout << "\tCacao: " << h[1] << endl;
+        cout << "\tCoffee: " << h[2] << endl;
     }
 
     cout << endl;
