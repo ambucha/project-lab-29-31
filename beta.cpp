@@ -76,7 +76,7 @@ int main(){
     }
 
     // print initial farm state to show how the farm is before the simulation begins
-    printState(farm,0); // 0 to show that it is initial state
+    printState(farm,0, harvested); // 0 to show that it is initial state
 
     // run the simulation for 30 time periods
     for(int i = 1; i <= 30; i++){
@@ -87,7 +87,7 @@ int main(){
     }
 
     // print final results after all days are simulated
-    printState(farm, -1);
+    printState(farm, -1, harvested);
 
     return 0;
 }
@@ -176,7 +176,7 @@ bool loadData(map<string, array<list<int>, 3>>& farm, string fname){
 }
 
 // day simulation
-void simulate(map<string, array<list<int>, 3>>& farm, int day, map<string, array<int,3>> harvested){
+void simulate(map<string, array<list<int>, 3>>& farm, int day, map<string, array<int,3>>& harvested){
     // ok so first imma randomly select weather condition for this day, lets start with three possible options
     // 0 = rani, 1 = heat, 2 = normal
     // imma make a variable so that i can up the weather options easilty if needed
@@ -264,7 +264,7 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day, map<string, array
             // now we loop through each plant of that crop type
             for (auto it = l.begin(); it != l.end();){
                 // check if it is ready to harvest
-                if(*it == 6){
+                if(*it >= 6){
                     // add to the harvest count herre
                     ++harvested[field][i];
                     it = l.erase(it); // harvest the plant
@@ -275,7 +275,7 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day, map<string, array
                 if((rand() % 100) < chance){
                     (*it)++;
                     // now check if it is ready to be harvest
-                    if(*it == 6) {
+                    if(*it >= 6) {
                         // here too add to the harvest count 
                         ++harvested[field][i];
                         it = l.erase(it); // harvest

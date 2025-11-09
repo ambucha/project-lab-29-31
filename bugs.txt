@@ -1,1 +1,9 @@
-bugs
+bugs encountered throughout the project:
+
+Bug 1: i was missing a random seed, which was giving me the same results on each run,
+simple fix of using srand(time(0)), seeding rand in main
+
+Bug 2: I was passing harvest by value in simulate instead of by reference which made them print
+as 0s even though plants were being harvested, fixed by changing to pass by reference
+
+Bug 3: 
