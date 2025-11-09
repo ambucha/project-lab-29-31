@@ -25,4 +25,5 @@ Bug 8: I had forgotten to add all the needed libraries earlier, simple fix addin
 Bug 9: I was not passing harvested parameter into the initial and final printState days, so I was getting issues there,
 adding all the needed paramters even to the first day (and last day) of the simulation
 
-Bug 10: 
+Bug 10: I initially had no variable to tell me exactly which lines were giving me the errors in the data csv, so i did not kno
+where to look in order to find my bad data, fixed by adding a line counter variable to help me find where the issue in the data is
