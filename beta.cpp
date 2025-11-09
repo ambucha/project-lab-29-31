@@ -8,6 +8,7 @@
 #include <list>
 #include <fstream>
 #include <sstream>
+#include <vector>
 // includes for the rand
 #include <cstdlib>
 #include <ctime>
@@ -39,7 +40,7 @@ void printState(map<string, array<list<int>, 3>>& farm, int day);
 
 // now that its the final release i think its good to add a function to populate the farm_data.csv
 // generateData() opens the farm_data.csv file and populates it with random data
-void generateData(const string& fmame, const int cropNum);
+void generateData(const string& fname);
 
 // main
 int main(){
@@ -51,6 +52,9 @@ int main(){
 
     // filename of the data file
     string fName = "farm_data.csv";
+
+    // generate the data
+    generateData(fName); 
 
     // check, wether file loaded correctly or no
     bool check = loadData(farm,fName);
@@ -328,7 +332,7 @@ void printState(map<string, array<list<int>, 3>>& farm, int day){
     cout << endl;
 }
 
-void generateData(const string& fname, const int cropNum){
+void generateData(const string& fname){
     // open the file to output data into
     ofstream fout(fname);
     // check if file is open and if  not output an error
@@ -338,6 +342,22 @@ void generateData(const string& fname, const int cropNum){
     }
 
     // create a vector to hold the field names - north field south field east field
-    vector<string> fields = {};
+    vector<string> fields = {"North Field", "South Field", "East Field"};
+    int fieldCount = fields.size();
 
+    // loop through the fields
+    for(int i = 0; i < fields.size();i++){
+        // now we need to cycle through each of the names
+        string field = fields[i % fieldCount];
+
+        // now loop through the ammount of crops you want to add per field
+        for(int j = 0; j < NUM_CROPS; j++){
+            // get a random crop
+            int crop = rand() % 3; // this should give us random from 0-2
+            // now we want random stage from 1-6
+            int stage = 1 + rand() % 6;
+            // output the data to the file
+            fout << field << "," << crop << "," << stage << endl;
+        }
+    }
 }
