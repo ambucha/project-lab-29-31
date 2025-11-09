@@ -315,9 +315,9 @@ void printState(map<string, array<list<int>, 3>>& farm, int day){
         
         // i can adjust what i want to output but for nnow lets keep it basic
         cout << fName << ": " << endl;
-        cout << "Cassava count: " << cLists[0].size() << endl;
-        cout << "Cacao count: " << cLists[1].size() << endl;
-        cout << "Coffee count: " << cLists[2].size() << endl;
+        cout << "\tCassava count: " << cLists[0].size() << endl;
+        cout << "\tCacao count: " << cLists[1].size() << endl;
+        cout << "\tCoffee count: " << cLists[2].size() << endl;
     }
 
     cout << endl;
