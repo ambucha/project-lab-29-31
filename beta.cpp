@@ -21,6 +21,7 @@ const int NUM_OF_CROPS = 3;
 const int CASSAVA_RATE = 25;
 const int CACAO_RATE = 35;
 const int COFFEE_RATE = 45;
+const int NUM_CROPS = 33;
 
 //functions (prototypes)
 
@@ -35,6 +36,10 @@ void simulate(map<string, array<list<int>, 3>>& farm, int day);
 // prints current farm state
 // arguments: reference to map, current day
 void printState(map<string, array<list<int>, 3>>& farm, int day);
+
+// now that its the final release i think its good to add a function to populate the farm_data.csv
+// generateData() opens the farm_data.csv file and populates it with random data
+void generateData(const string& fmame, const int cropNum);
 
 // main
 int main(){
@@ -321,4 +326,18 @@ void printState(map<string, array<list<int>, 3>>& farm, int day){
     }
 
     cout << endl;
+}
+
+void generateData(const string& fname, const int cropNum){
+    // open the file to output data into
+    ofstream fout(fname);
+    // check if file is open and if  not output an error
+    if(!fout.is_open()){
+        cerr << "ERROR: Output file could not be opened" << endl;
+        return;
+    }
+
+    // create a vector to hold the field names - north field south field east field
+    vector<string> fields = {};
+
 }
